@@ -18,7 +18,7 @@ Next.js (App Router) + Neon Postgres + Prisma (schema-first) + Server Actions + 
 3. Mutations ต้องเป็น Server Actions + Zod validation + TypeScript เข้ม
 4. ใช้ Neon pooled URL เป็น DATABASE_URL และ DIRECT_URL (non-pooler) สำหรับ Prisma CLI
 5. ใช้ @prisma/adapter-neon กับ Prisma Client
-6. หน้าแรกต้อง dynamic (force-dynamic) เพราะอ่าน DB
+6. หน้าแรกใช้ Cache Components ของ Next 16 — ห่อส่วนที่อ่าน DB ด้วย `<Suspense>` (ห้ามใช้ `dynamic = "force-dynamic"`)
 7. อย่า commit ไฟล์ .env — มีแค่ .env.example
 8. ทำ repo ให้พร้อม public: README, LICENSE MIT, topics, homepage
 
