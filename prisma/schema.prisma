@@ -1,0 +1,24 @@
+// Schema-first: lock Neon structure BEFORE building UI.
+// Run: npx prisma db push
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+/// Waitlist / vibe signup — demo table for Server Actions lesson
+model VibeSignup {
+  id        String   @id @default(cuid())
+  name      String   @db.VarChar(80)
+  email     String   @unique @db.VarChar(160)
+  note      String?  @db.VarChar(280)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([createdAt])
+  @@map("vibe_signups")
+}

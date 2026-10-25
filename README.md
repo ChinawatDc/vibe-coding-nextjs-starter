@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vibe Coding Next.js Starter
 
-## Getting Started
+[![Live](https://img.shields.io/badge/demo-Vercel-black?style=flat-square)](https://vibe-coding-nextjs-starter.vercel.app)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](./LICENSE)
 
-First, run the development server:
+Starter สำหรับคลิป **Vibe-01** (DevKhum AI)  
+**Next.js + Neon Postgres + Prisma (schema-first) + Server Actions + Vercel**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+> สั่ง AI Agent ทีเดียวให้ได้เว็บสวยและบิลด์ไม่พัง → คัดลอกพรอมต์ใน [`ONE_SHOT_PROMPT.md`](./ONE_SHOT_PROMPT.md)
+
+## สูตร 3 สเต็ป
+
+```
+Neon Schema  →  Server Actions (+ Zod)  →  Vercel Deploy (GitHub)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| ขั้น | ทำอะไร |
+|---|---|
+| 1 | ล็อก `prisma/schema.prisma` แล้ว `npx prisma db push` |
+| 2 | เขียน Server Action มี TypeScript + Zod กำกับ ก่อนหน้าบ้าน |
+| 3 | Push GitHub → Vercel ตั้ง `DATABASE_URL` / `DIRECT_URL` |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Next.js 16 (App Router) · React 19 · Tailwind 4
+- Neon Postgres (ap-southeast-1)
+- Prisma 6 + `@prisma/adapter-neon`
+- Zod · Server Actions
 
-## Learn More
+## รันท้องถิ่น
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+cp .env.example .env
+# ใส่ connection string จาก Neon Console
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+npm ci
+npx prisma generate
+npx prisma db push
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+เปิด http://localhost:3000
 
-## Deploy on Vercel
+## Env
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| ตัวแปร | ความหมาย |
+|---|---|
+| `DATABASE_URL` | Neon **pooled** (`*-pooler*`) สำหรับ Prisma Client |
+| `DIRECT_URL` | Neon **direct** สำหรับ `prisma db push` / migrate |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deploy (Vercel)
+
+1. Import repo จาก GitHub
+2. ใส่ env ทั้งสองตัว (Production + Preview)
+3. Build: `prisma generate && next build` (ดู `package.json` → `build`)
+4. Deploy
+
+## โครงสร้างสำคัญ
+
+```
+prisma/schema.prisma      # schema-first
+src/lib/prisma.ts         # Neon adapter
+src/lib/actions.ts        # Server Actions + Zod
+src/app/page.tsx          # one-page dark tech
+ONE_SHOT_PROMPT.md        # พรอมต์สั่ง Agent ทีเดียว
+```
+
+## License
+
+MIT · DevKhum AI / ChinawatDc
